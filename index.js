@@ -34,8 +34,12 @@ app.get('/', (req, res) => {
 
 app.get('/checkcookies', (req, res) => {
     const token = req.cookies?.jwt;
-    // get the request host
-    const host = req.get('host');
+    // get the redirect URL from the query string
+    const redirectUrl = req.query.redirectUrl;
+
+    if (!redirectUrl) {
+        return res.status(400).send('Missing redirectUrl query parameter');
+    }
     if (!token) {
         // No JWT, issue a new one
         const newToken = jwt.sign({ user: 'test-user' }, SECRET_KEY, { expiresIn: '1h' });
@@ -46,12 +50,12 @@ app.get('/checkcookies', (req, res) => {
         res.set('Access-Control-Allow-Origin', '${host}');
         res.set('Access-Control-Allow-Credentials', 'true');
 
-        return res.redirect(`${host}/setcookies?token=${newToken}`);
+        return res.redirect(`${redirectUrl}/setcookies?token=${newToken}`);
     }
 
     // JWT exists, pass it to bbb.com
     res.set('Authorization', `Bearer ${token}`);
-    return res.redirect(`${host}/setcookies?token=${token}`);
+    return res.redirect(`${redirectUrl}/setcookies?token=${token}`);
 });
 
 app.listen(3000, () => {
