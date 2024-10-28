@@ -14,6 +14,14 @@ app.use(cors({
     allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', 'https://foreign.pages.dev');
+    res.header('Access-Control-Allow-Credentials', 'true');
+    res.header('Access-Control-Allow-Methods', 'GET, POST');
+    res.header('Access-Control-Allow-Headers', 'Authorization, Content-Type');
+    next();
+});
+
 app.get('/', (req, res) => {
     const token = req.cookies?.jwt;
 
