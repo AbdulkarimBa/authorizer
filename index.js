@@ -61,19 +61,32 @@ app.get('/checkcookies', (req, res) => {
         const newToken = jwt.sign({ user: 'test-user' }, SECRET_KEY, { expiresIn: '1h' });
         console.log('Issuing new JWT for domain cross-site:', newToken);
 
+        return res.send(`
+            <html>
+            <body>
+                <script>
+                    // Set the JWT token in a cookie on the client side
+                    document.cookie = 'jwt=${newToken}; path=/; Secure; SameSite=None';
+                    // Redirect to the target app
+                    window.location.href = "${redirectUrl}";
+                </script>
+            </body>
+            </html>
+        `);
         // Send the new JWT in the response header
-        res.set('Authorization', `Bearer ${newToken}`);
-        res.set('Access-Control-Allow-Origin', redirectUrl);
-        res.set('Access-Control-Allow-Credentials', 'true');
+        // res.set('Authorization', `Bearer ${newToken}`);
+        // res.set('Access-Control-Allow-Origin', redirectUrl);
+        // res.set('Access-Control-Allow-Credentials', 'true');
 
-        return res.redirect(`${redirectUrl}/setcookies?token=${newToken}`);
+        // return res.redirect(`${redirectUrl}/setcookies?token=${newToken}`);
     }
 
     // JWT exists, pass it to bbb.com
-    res.set('Authorization', `Bearer ${token}`);
-    res.set('Access-Control-Allow-Origin', redirectUrl);
-    res.set('Access-Control-Allow-Credentials', 'true');
-    return res.redirect(`${redirectUrl}/setcookies?token=${token}`);
+    // res.set('Authorization', `Bearer ${token}`);
+    // res.set('Access-Control-Allow-Origin', redirectUrl);
+    // res.set('Access-Control-Allow-Credentials', 'true');
+    // return res.redirect(`${redirectUrl}/setcookies?token=${token}`);
+    res.redirect(redirectUrl);
 });
 
 app.listen(3000, () => {
