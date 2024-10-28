@@ -57,7 +57,9 @@ app.get('/checkcookies', (req, res) => {
     console.log('Redirect URL:', redirectUrl);
 
     console.log('Generated JWT:', token);
-
+    res.set('Authorization', `Bearer ${newToken}`);
+    res.set('Access-Control-Allow-Origin', redirectUrl);
+    res.set('Access-Control-Allow-Credentials', 'true');
     res.json({
         token,
         redirectUrl: `${redirectUrl}/setcookies`
