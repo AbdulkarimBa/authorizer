@@ -47,9 +47,11 @@ app.get('/', (req, res) => {
 });
 
 app.get('/checkcookies', (req, res) => {
+    console.log('Checking cookies...');
     const token = req.cookies?.jwt;
     // get the redirect URL from the query string
     const redirectUrl = req.query.redirectUrl;
+    console.log('Redirect URL:', redirectUrl);
 
     if (!redirectUrl) {
         return res.status(400).send('Missing redirectUrl query parameter');
