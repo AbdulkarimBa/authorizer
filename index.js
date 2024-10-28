@@ -71,6 +71,8 @@ app.get('/checkcookies', (req, res) => {
 
     // JWT exists, pass it to bbb.com
     res.set('Authorization', `Bearer ${token}`);
+    res.set('Access-Control-Allow-Origin', redirectUrl);
+    res.set('Access-Control-Allow-Credentials', 'true');
     return res.redirect(`${redirectUrl}/setcookies?token=${token}`);
 });
 
