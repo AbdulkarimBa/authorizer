@@ -7,6 +7,12 @@ const app = express();
 const SECRET_KEY = 'your_secret_key'; // Replace with your actual secret key
 app.use(cookieParser());
 
+// Allow only specific origin
+app.use(cors({
+    origin: 'https://foreign.pages.dev',
+    methods: ['GET', 'POST'], // Add other methods as needed
+    allowedHeaders: ['Content-Type', 'Authorization']
+}));
 
 app.get('/', (req, res) => {
     const token = req.cookies?.jwt;
