@@ -46,7 +46,7 @@ app.get('/', (req, res) => {
     res.send('<h1>Welcome back to authenticator on Vercel! You are authenticated.</h1>');
 });
 
-app.get('/checkcookies', (req, res) => {
+app.post('/checkcookies', (req, res) => {
     console.log('Checking cookies...');
     const token = req.cookies?.jwt;
     // get the redirect URL from the query string
