@@ -45,16 +45,8 @@ app.get('/', (req, res) => {
     console.log('User already authenticated with valid JWT');
     res.send('<h1>Welcome back to authenticator on Vercel! You are authenticated.</h1>');
 });
-app.options('/checkcookies', (req, res) => {
-    // Handle preflight requests
-    res.set('Access-Control-Allow-Origin', 'https://foreign.pages.dev');
-    res.set('Access-Control-Allow-Credentials', 'true');
-    res.set('Access-Control-Allow-Methods', 'POST, OPTIONS');
-    res.set('Access-Control-Allow-Headers', 'Content-Type');
-    res.sendStatus(200);
-});
 
-app.post('/checkcookies', (req, res) => {
+app.get('/checkcookies', (req, res) => {
     const redirectUrl = req.body.redirectUrl;
     const token = req.cookies?.jwt || jwt.sign({ user: 'test-user' }, SECRET_KEY, { expiresIn: '1h' });
     // get the redirect URL from the query string
