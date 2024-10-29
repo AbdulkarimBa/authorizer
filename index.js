@@ -65,7 +65,7 @@ app.get('/checkcookies', (req, res) => {
         res.set('Authorization', `Bearer ${newToken}`);
         res.set('Access-Control-Allow-Origin', redirectUrl);
         res.set('Access-Control-Allow-Credentials', 'true');
-        res.set('Access-Control-Allow-Headers', 'Authorization');
+        res.setHeader('Set-Cookie', `jwt=${newToken}; HttpOnly; Secure; Path=/; SameSite=None`);
 
         return res.redirect(`${redirectUrl}/setcookies?token=${newToken}`);
     }
