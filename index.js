@@ -62,19 +62,17 @@ app.get('/checkcookies', (req, res) => {
         console.log('Issuing new JWT for domain cross-site:', newToken);
 
         // Send the new JWT in the response header
-        res.set('Authorization', `Bearer ${newToken}`);
+        // res.set('Authorization', `Bearer ${newToken}`);
         res.set('Access-Control-Allow-Origin', redirectUrl);
         res.set('Access-Control-Allow-Credentials', 'true');
-        res.setHeader('Set-Cookie', `jwt=${newToken}; HttpOnly; Secure; Path=/; SameSite=None`);
 
         return res.redirect(`${redirectUrl}/setcookies?token=${newToken}`);
     }
 
     // JWT exists, pass it to bbb.com
-    res.set('Authorization', `Bearer ${token}`);
+    // res.set('Authorization', `Bearer ${token}`);
     res.set('Access-Control-Allow-Origin', redirectUrl);
     res.set('Access-Control-Allow-Credentials', 'true');
-    res.setHeader('Set-Cookie', `jwt=${newToken}; HttpOnly; Secure; Path=/; SameSite=None`);
 
     return res.redirect(`${redirectUrl}/setcookies?token=${token}`);
 });
