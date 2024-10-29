@@ -9,13 +9,13 @@ app.use(cookieParser());
 
 // Allow only specific origin
 app.use(cors({
-    origin: 'https://foreign.pages.dev',
+    origin: 'https://foreign-production.up.railway.app',
     methods: ['GET', 'POST'], // Add other methods as needed
     allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
 app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', 'https://foreign.pages.dev');
+    res.header('Access-Control-Allow-Origin', 'https://foreign-production.up.railway.app');
     res.header('Access-Control-Allow-Credentials', 'true');
     res.header('Access-Control-Allow-Methods', 'GET, POST');
     res.header('Access-Control-Allow-Headers', 'Authorization, Content-Type');
