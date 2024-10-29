@@ -46,14 +46,12 @@ app.get('/', (req, res) => {
     res.send('<h1>Welcome back to authenticator on Vercel! You are authenticated.</h1>');
 });
 app.options('/checkcookies', (req, res) => {
-    // Handle preflight requests
     res.set('Access-Control-Allow-Origin', 'https://foreign.pages.dev');
     res.set('Access-Control-Allow-Credentials', 'true');
     res.set('Access-Control-Allow-Methods', 'POST, OPTIONS');
     res.set('Access-Control-Allow-Headers', 'Content-Type');
-    res.sendStatus(200);
+    return res.sendStatus(200);
 });
-
 app.post('/checkcookies', (req, res) => {
     const redirectUrl = req.body.redirectUrl;
     const token = req.cookies?.jwt || jwt.sign({ user: 'test-user' }, SECRET_KEY, { expiresIn: '1h' });
@@ -62,9 +60,7 @@ app.post('/checkcookies', (req, res) => {
         return res.status(400).send('Missing redirectUrl in body');
     }
 
-    console.log('Generated JWT:', token);
-
-    // Set CORS headers
+    // Set headers to allow credentials and specify the origin
     res.set('Access-Control-Allow-Origin', 'https://foreign.pages.dev');
     res.set('Access-Control-Allow-Credentials', 'true');
 
